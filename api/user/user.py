@@ -11,8 +11,21 @@ class UserManagement(Resource):
         return {}
 
     def post(self):
-        # POST method 구현 부분
-        return {}
+        # 유저 생성
+        id = request.get_json()["id"]
+        pw = request.get_json()["password"]
+        nn = request.get_json()["nickname"]
+
+        sql = "SELECT * FROM user where id = %s"
+        result = Database.execute_one(self, sql, (id))
+
+        if (result.count == 0):
+            sql = "INSERT INTO user (id, password, nickname) VALUES (%s, %s, %s)"
+            Database.execute(self, sql, (id, pw, nn))
+            return { "is_success": True, "message": "유저 생성 성공" }, 200
+        else:
+            return { "is_success": False, "message": "이미 있는 유저" }, 400
+
 
     def put(self):
         # PUT method 구현 부분
