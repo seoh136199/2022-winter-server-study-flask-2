@@ -37,5 +37,21 @@ class UserManagement(Resource):
         return {}
     
     def delete(self):
-        # DELETE method 구현 부분
-        return {}
+        # 유저 삭제
+        id = request.get_json()["id"]
+        pw = request.get_json()["password"]
+
+        db = Database()
+        sql = "SELECT * FROM user where id = %s"
+        result = db.execute_one(sql, (id))
+
+        if (result == None or result[0][2] != pw):
+            db.commit()
+            db.close()
+            return { "is_success": False, "message": "아이디나 비밀번호 불일치" }, 
+        else:
+            sql = "DELETE FROM user WHERE id = %s"
+            db.execute(sql, (id))
+            db.commit()
+            db.close()
+            return { "is_success": True, "message": "유저 삭제 성공" }, 400
