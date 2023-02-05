@@ -23,8 +23,12 @@ class UserManagement(Resource):
         if (result == None):
             sql = "INSERT INTO user (id, password, nickname) VALUES (%s, %s, %s)"
             db.execute(sql, (id, pw, nn))
+            db.commit()
+            db.close()
             return { "is_success": True, "message": "유저 생성 성공" }, 200
         else:
+            db.commit()
+            db.close()
             return { "is_success": False, "message": "이미 있는 유저" }, 400
 
 
