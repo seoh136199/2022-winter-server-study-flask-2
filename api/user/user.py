@@ -16,12 +16,13 @@ class UserManagement(Resource):
         pw = request.get_json()["password"]
         nn = request.get_json()["nickname"]
 
+        db = Database()
         sql = "SELECT * FROM user where id = %s"
-        result = Database.execute_one(Database, sql, (id))
+        result = db.execute_one(sql, (id))
 
         if (result.count == 0):
             sql = "INSERT INTO user (id, password, nickname) VALUES (%s, %s, %s)"
-            Database.execute(Database, sql, (id, pw, nn))
+            db.execute(sql, (id, pw, nn))
             return { "is_success": True, "message": "유저 생성 성공" }, 200
         else:
             return { "is_success": False, "message": "이미 있는 유저" }, 400
