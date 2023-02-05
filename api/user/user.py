@@ -20,7 +20,7 @@ class UserManagement(Resource):
         sql = "SELECT * FROM user where id = %s"
         result = db.execute_one(sql, (id))
 
-        if (result.count == 0):
+        if (result == None):
             sql = "INSERT INTO user (id, password, nickname) VALUES (%s, %s, %s)"
             db.execute(sql, (id, pw, nn))
             return { "is_success": True, "message": "유저 생성 성공" }, 200
