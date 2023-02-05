@@ -7,8 +7,25 @@ user = Namespace('user')
 @user.route('')
 class UserManagement(Resource):
     def get(self):
-        # GET method 구현 부분
-        return {}
+        # 유저 데이터 조회
+        params = request.get_json()
+        id = params["id"]
+        pw = params["password"]
+
+        db = Database()
+        sql = "SELECT * FROM user where id = %s"
+        result = db.execute_one(sql, (id))
+
+        db.commit()
+        db.close()
+
+        if (result == None):
+            return { "message": "해당 유저가 존재하지 않음" }, 400
+        elif (result['password'] != pw):
+            return { "message": "아이디나 비밀번호 불일치" }, 400
+        else:
+            return { "nickname": result['nickname'] }, 200
+
 
     def post(self):
         # 유저 생성
