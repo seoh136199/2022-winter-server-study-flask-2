@@ -71,7 +71,7 @@ class UserManagement(Resource):
             db.execute(sql, (nn, id))
             db.commit()
             db.close()
-            return { "is_success": True, "message": "유저 닉네임 변경 성공 성공" }, 200
+            return { "is_success": True, "message": "유저 닉네임 변경 성공" }, 200
     
 
     def delete(self):
