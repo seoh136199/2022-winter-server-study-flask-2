@@ -46,7 +46,7 @@ class UserManagement(Resource):
             db.commit()
             db.close()
             return { "is_success": False, "message": "아이디나 비밀번호 불일치" }, 400
-        elif (result['nickname'] != nn):
+        elif (result['nickname'] == nn):
             db.commit()
             db.close()
             return { "is_success": False, "message": "현재 닉네임과 같음" }, 400
@@ -57,7 +57,7 @@ class UserManagement(Resource):
             db.close()
             return { "is_success": True, "message": "유저 닉네임 변경 성공 성공" }, 200
     
-    
+
     def delete(self):
         # 유저 삭제
         id = request.get_json()["id"]
