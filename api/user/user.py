@@ -8,9 +8,8 @@ user = Namespace('user')
 class UserManagement(Resource):
     def get(self):
         # 유저 데이터 조회
-        params = request.get_json()
-        id = params["id"]
-        pw = params["password"]
+        id = request.args.get("id")
+        pw = request.args.get("password")
 
         db = Database()
         sql = "SELECT * FROM user where id = %s"
