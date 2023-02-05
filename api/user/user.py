@@ -45,7 +45,7 @@ class UserManagement(Resource):
         sql = "SELECT * FROM user where id = %s"
         result = db.execute_one(sql, (id))
 
-        if (result == None or result[0][2] != pw):
+        if (result == None or result[0]['password'] != pw):
             db.commit()
             db.close()
             return { "is_success": False, "message": "아이디나 비밀번호 불일치" }, 
